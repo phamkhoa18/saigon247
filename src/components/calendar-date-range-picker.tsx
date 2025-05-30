@@ -9,27 +9,25 @@ import { vi } from "date-fns/locale";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface DateRange {
-  from: Date | undefined;
-  to: Date | undefined;
-}
+import type { DateRange } from "react-day-picker";  // Import kiểu DateRange chuẩn từ lib
 
 interface DateRangePickerProps {
-  value?: DateRange;               // Giá trị truyền vào (optional)
-  onChange?: (dates: Date[]) => void;  // Callback trả về mảng ngày được chọn
+  value?: DateRange; // dùng kiểu DateRange chuẩn
+  onChange?: (dates: Date[]) => void; // callback trả về mảng ngày được chọn
 }
 
 export function DateRangePicker({ value, onChange }: DateRangePickerProps) {
+  // Khởi tạo state với value truyền vào hoặc default { from: undefined, to: undefined }
   const [date, setDate] = React.useState<DateRange>(
     value ?? { from: undefined, to: undefined }
   );
 
-  // Đồng bộ state nếu value từ ngoài thay đổi
+  // Đồng bộ state nếu value thay đổi từ ngoài
   React.useEffect(() => {
     if (value) setDate(value);
   }, [value]);
 
-  // Hàm tạo list ngày trong khoảng from -> to
+  // Tạo danh sách ngày từ from -> to
   function getDateList(from: Date | undefined, to: Date | undefined): Date[] {
     if (!from || !to) return [];
     const days = differenceInCalendarDays(to, from);
@@ -40,7 +38,7 @@ export function DateRangePicker({ value, onChange }: DateRangePickerProps) {
     return dates;
   }
 
-  // Xử lý khi chọn ngày, có thể nhận undefined
+  // Xử lý khi chọn ngày (range có thể undefined)
   function handleSelect(range: DateRange | undefined) {
     if (!range) {
       setDate({ from: undefined, to: undefined });

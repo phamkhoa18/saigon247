@@ -1,7 +1,6 @@
 // app/admin/layout.tsx
+import { Sidebar } from "@/components/common/Sidebar";
 import type { ReactNode } from "react";
-import { Sidebar } from "./Sidebar/page";
-import { Header } from "./Header/page";
 import { Toaster } from "react-hot-toast";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
@@ -14,7 +13,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 
     {/* Phần còn lại */}
     <div className="flex-1 flex flex-col">
-        <Header />
+        <header className="w-full px-6 py-4 bg-white border-b shadow-sm">
+          <h1 className="text-lg font-semibold">Bảng điều khiển</h1>
+        </header>
         <main className="flex-1 p-2 sm:p-6">{children}
             <Toaster position="top-right" />
         </main>

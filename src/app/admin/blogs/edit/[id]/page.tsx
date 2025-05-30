@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -19,11 +20,14 @@ import {
 import TextEditor from '@/components/TextEditor';
 import { toast } from 'react-hot-toast';
 import { Sparkles } from 'lucide-react';
+import { IPost } from '@/lib/types/ipost';
+import { ICategory } from '@/lib/types/icategory';
+import { IUser } from '@/lib/types/iuser';
 
 export default function EditPostPage() {
   const router = useRouter();
   const params = useParams();
-  const { id } = params;
+ const { id } = params as { id: string };
 
   const [formData, setFormData] = useState({
     title: '',
@@ -39,7 +43,7 @@ export default function EditPostPage() {
   const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState<{ _id: string; name: string }[]>([]);
   const [user, setUser] = useState<{ _id: string; name: string }[]>([]);
-  const [postFetched, setPostFetched] = useState<any>(null); // lưu bài viết để đồng bộ sau khi có danh sách
+  const [postFetched, setPostFetched] = useState<IPost | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -69,7 +73,7 @@ export default function EditPostPage() {
     try {
       const res = await fetch('/api/categories');
       const data = await res.json();
-      const simplified = data.data.map((item: any) => ({
+      const simplified = data.data.map((item: ICategory) => ({
         _id: item._id,
         name: item.name,
       }));
@@ -83,7 +87,7 @@ export default function EditPostPage() {
     try {
       const res = await fetch('/api/users');
       const data = await res.json();
-      const simplified = data.data.map((item: any) => ({
+      const simplified = data.data.map((item: IUser) => ({
         _id: item._id,
         name: item.name,
       }));
@@ -114,7 +118,7 @@ export default function EditPostPage() {
         toast.error('Không tìm thấy bài viết');
         router.push('/admin/blogs');
       }
-    } catch (err) {
+    } catch {
       toast.error('Lỗi khi tải bài viết');
     }
   };
@@ -122,7 +126,7 @@ export default function EditPostPage() {
   // Đồng bộ sau khi cả bài viết và danh sách user/category đã có
   useEffect(() => {
     if (postFetched && category.length > 0 && user.length > 0) {
-      setFormData((prev) => ({
+      setFormData((prev: any) => ({
         ...prev,
         categories: postFetched.categories || '',
         author: postFetched.author || '',
@@ -159,7 +163,7 @@ export default function EditPostPage() {
       } else {
         toast.error(data.message || 'Cập nhật thất bại!');
       }
-    } catch (error) {
+    } catch {
       toast.error('Lỗi khi gửi yêu cầu');
     } finally {
       setLoading(false);

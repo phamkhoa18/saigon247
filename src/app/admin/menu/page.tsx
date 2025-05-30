@@ -265,7 +265,7 @@ const MenuAdmin: React.FC = () => {
                     name: item.name,
                     link: item.link,
                     slug: item.slug,
-                    icon: item.icon,
+                    icon: item.icon || '',
                     order: item.order,
                     parentId: item.parentId || '',
                     isActive: item.isActive,

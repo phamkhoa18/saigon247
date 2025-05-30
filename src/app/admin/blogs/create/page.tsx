@@ -19,6 +19,8 @@ import {
 import TextEditor from '@/components/TextEditor';
 import { toast } from 'react-hot-toast';
 import { Sparkles } from 'lucide-react';
+import { ICategory } from '@/lib/types/icategory';
+import { IUser } from '@/lib/types/iuser';
 
 export default function CreateBlogPage() {
   const router = useRouter();
@@ -55,7 +57,7 @@ export default function CreateBlogPage() {
     console.log(data);
     
     // Lọc ra chỉ lấy _id và name
-    const simplified = data.data.map((item:any) => ({
+    const simplified = data.data.map((item:ICategory) => ({
       _id: item._id,
       name: item.name,
     }));
@@ -71,7 +73,7 @@ async function getDataUser() {
     const data = await res.json();
     
     // Lọc ra chỉ lấy _id và name
-    const simplified = data.data.map((item: any) => ({
+    const simplified = data.data.map((item: IUser) => ({
       _id: item._id,
       name: item.name,
     }));
