@@ -1,0 +1,22 @@
+
+  /* NProgress custom style */
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: #22c55e; /* màu xanh lá kiểu Tailwind: green-500 */
+
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 3px;
+}
+
+/* Nếu muốn ẩn cái vòng xoay mặc định */
+#nprogress .spinner {
+  display: none;
+}
